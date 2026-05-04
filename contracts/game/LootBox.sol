@@ -4,9 +4,8 @@ pragma solidity ^0.8.20;
 
 
 
-// нужен Интерфейс ERC1155 короче нужен минтинг
 interface IGameItems {
-    function mint(address to, uint256 id, uint256 amount, bytes calldata data) external;
+    function mint(address account, uint256 id, uint256 amount) external;
 }
 
 
@@ -43,8 +42,7 @@ contract LootBox {
 
         uint256 itemId = _getRandomItem(random);
 
-        /// TODO: Нужен минтинг ERC1155 пока временно так
-        gameItems.mint(msg.sender, itemId, 1, "");
+        gameItems.mint(msg.sender, itemId, 1);
 
         emit LootBoxOpened(msg.sender, itemId);
     }
