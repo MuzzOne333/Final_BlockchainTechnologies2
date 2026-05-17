@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>GameFi DAO</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: sans-serif; background: #0f0f0f; color: #eee; padding: 2rem; }
+    h1 { margin-bottom: 1.5rem; }
+    button {
+      background: #7c3aed; color: white; border: none;
+      padding: 10px 20px; border-radius: 8px;
+      cursor: pointer; margin: 5px 5px 5px 0; font-size: 1rem;
+    }
+    button:hover { background: #6d28d9; }
+    button:disabled { background: #4a4a4a; cursor: not-allowed; }
+    #status {
+      margin-top: 1rem; padding: 1rem;
+      background: #1f1f1f; border-radius: 8px; font-size: 0.9rem;
+      min-height: 3rem;
+    }
+    .error { color: #f87171; }
+    .success { color: #4ade80; }
+    .info { color: #60a5fa; }
+    #wallet-info { margin-top: 1rem; display: none; }
+    #wallet-info p { margin: 0.3rem 0; font-size: 0.9rem; color: #aaa; }
+    #wallet-info span { color: #eee; }
+  </style>
+</head>
+<body>
+  <h1>🎮 GameFi DAO</h1>
+
+  <button id="connectBtn">Connect MetaMask</button>
+
+  <div id="wallet-info">
+    <p>Address: <span id="walletAddress">-</span></p>
+    <p>Balance: <span id="walletBalance">-</span> ETH</p>
+    <p>Network: <span id="networkName">-</span></p>
+  </div>
+
+  <div id="status">Not connected</div>
+
+  <script>
+    const REQUIRED_CHAIN_ID = "0x14a34";
+    const CHAIN_NAME = "Base Sepolia";
+
+    const statusEl = document.getElementById("status");
+    const connectBtn = document.getElementById("connectBtn");
+    const walletInfo = document.getElementById("wallet-info");
+    const walletAddress = document.getElementById("walletAddress");
+    const walletBalance = document.getElementById("walletBalance");
+    const networkName = document.getElementById("networkName");
+
+    function setStatus(msg, type = "") {
+      statusEl.innerHTML = msg;
+      statusEl.className = type;
+    }
+
+    async function getBalance(address) {
+      const balance = await window.ethereum.request({
+        method: "eth_getBalance",
+        params: [address, "latest"],
+      });
+      return (parseInt(balance, 16) / 1e18).toFixed(4);
+    }
+
+    async function showWalletInfo(address) {
+      walletAddress.textContent = address;
+      walletBalance.textContent = await getBalance(address);
+      networkName.textContent = CHAIN_NAME;
+      walletInfo.style.display = "block";
+    }
+
+    async function switchNetwork() {
+      const chainId = await window.ethereum.request({ method: "eth_chainId" });
+      if (chainId === REQUIRED_CHAIN_ID) return true;
+      setStatus("⚠️ Wrong network! Switching to Base Sepolia...", "error");
+      try {
+        await window.ethereum.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: REQUIRED_CHAIN_ID }],
+        });
+        return true;
+      } catch (e) {
+        if (e.code === 4902) {
+          await window.ethereum.request({
+            method: "wallet_addEthereumChain",
+            params: [{
+              chainId: REQUIRED_CHAIN_ID,
+              chainName: "Base Sepolia",
+              nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+              rpcUrls: ["https://sepolia.base.org"],
+              blockExplorerUrls: ["https://sepolia-explorer.base.org"],
+            }],
+          });
+          return true;
+        }
+        setStatus("❌ Switch to Base Sepolia manually.", "error");
+        return false;
+      }
+    }
+
+    connectBtn.addEventListener("click", async () => {
+      if (!window.ethereum) {
+        setStatus("❌ MetaMask not found. Please install it.", "error");
+        return;
+      }
+      try {
+        connectBtn.disabled = true;
+        connectBtn.textContent = "Connecting...";
+
+        const accounts = await window.ethereum.request({ method: "eth_requestAccounts" });
+        const ok = await switchNetwork();
+        if (!ok) {
+          connectBtn.disabled = false;
+          connectBtn.textContent = "Connect MetaMask";
+          return;
+        }
+
+        await showWalletInfo(accounts[0]);
+        setStatus("✅ Wallet connected successfully.", "success");
+        connectBtn.textContent = "Connected ✓";
+
+        window.ethereum.on("accountsChanged", async (accs) => {
+          if (accs.length === 0) {
+            setStatus("Disconnected", "");
+            walletInfo.style.display = "none";
+            connectBtn.textContent = "Connect MetaMask";
+            connectBtn.disabled = false;
+          } else {
+            await showWalletInfo(accs[0]);
+            setStatus("✅ Account changed.", "success");
+          }
+        });
+
+        window.ethereum.on("chainChanged", () => window.location.reload());
+
+      } catch (e) {
+        connectBtn.disabled = false;
+        connectBtn.textContent = "Connect MetaMask";
+        if (e.code === 4001) {
+          setStatus("❌ Rejected by user.", "error");
+        } else {
+          setStatus(`❌ Error: ${e.message}`, "error");
+        }
+      }
+    });
+  </script>
+</body>
+</html>
