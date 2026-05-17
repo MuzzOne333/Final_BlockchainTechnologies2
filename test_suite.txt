@@ -1,0 +1,174 @@
+No files changed, compilation skipped
+
+Ran 6 tests for test/unit/ResourceTokens.t.sol:ResourceTokensTest
+[PASS] test_Burn() (gas: 49854)
+[PASS] test_Burn_RevertInsufficientBalance() (gas: 45395)
+[PASS] test_Burn_RevertNotOwner() (gas: 44830)
+[PASS] test_InitialState() (gas: 14701)
+[PASS] test_Mint() (gas: 42132)
+[PASS] test_Mint_RevertNotOwner() (gas: 17795)
+Suite result: ok. 6 passed; 0 failed; 0 skipped; finished in 752.90µs (379.97µs CPU time)
+
+Ran 2 tests for test/unit/LootBox.t.sol:LootBoxTest
+[PASS] test_OpenLootBox() (gas: 71686)
+[PASS] test_OpenLootBox_RevertNotEnoughPayment() (gas: 21053)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 889.22µs (210.91µs CPU time)
+
+Ran 9 tests for test/unit/AMM.t.sol:AMMTest
+[PASS] testAddLiquidityRevertZeroAmount() (gas: 9376)
+[PASS] testGetAmountOutZeroReserves() (gas: 11548)
+[PASS] testRemoveLiquidity() (gas: 56793)
+[PASS] testRemoveLiquidityRevertInsufficient() (gas: 11733)
+[PASS] testRemoveLiquidityRevertZeroAmount() (gas: 9420)
+[PASS] testSwapRevertInsufficientLiquidityZeroReserve() (gas: 14836)
+[PASS] testSwapRevertSlippage() (gas: 19998)
+[PASS] testSwapRevertZeroAmount() (gas: 10401)
+[PASS] testSwapWorks() (gas: 80287)
+Suite result: ok. 9 passed; 0 failed; 0 skipped; finished in 1.75ms (969.13µs CPU time)
+
+Ran 13 tests for test/unit/StakingVault.t.sol:StakingVaultTest
+[PASS] testCannotWithdrawTooMuch() (gas: 114629)
+[PASS] testDeposit() (gas: 111235)
+[PASS] testDepositEmitsEvent() (gas: 106921)
+[PASS] testFullWithdraw() (gas: 105688)
+[PASS] testMint() (gas: 111320)
+[PASS] testMultipleUsers() (gas: 153619)
+[PASS] testPreviewDeposit() (gas: 16175)
+[PASS] testPreviewMint() (gas: 16151)
+[PASS] testPreviewRedeem() (gas: 16111)
+[PASS] testPreviewWithdraw() (gas: 16130)
+[PASS] testRedeem() (gas: 128536)
+[PASS] testVaultBalanceMatchesAccounting() (gas: 157475)
+[PASS] testWithdraw() (gas: 131777)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 26.67ms (1.89ms CPU time)
+
+Ran 3 tests for test/fuzz/AMMFuzz.t.sol:AMMFuzzTest
+[PASS] testFuzzAddLiquidity(uint256) (runs: 256, μ: 49867, ~: 49255)
+[PASS] testFuzzRemoveLiquidity(uint256) (runs: 256, μ: 47347, ~: 47112)
+[PASS] testFuzzSwap(uint256) (runs: 256, μ: 71490, ~: 71657)
+Suite result: ok. 3 passed; 0 failed; 0 skipped; finished in 58.05ms (119.27ms CPU time)
+
+Ran 8 tests for test/unit/CraftingSystem.t.sol:CraftingSystemTest
+[PASS] test_AddRecipe() (gas: 224858)
+[PASS] test_AddRecipe_RevertEmptyInputs() (gas: 13378)
+[PASS] test_AddRecipe_RevertLengthMismatch() (gas: 14342)
+[PASS] test_AddRecipe_RevertNotAdmin() (gas: 15959)
+[PASS] test_Craft() (gas: 285558)
+[PASS] test_Craft_RevertInsufficientBalance() (gas: 215550)
+[PASS] test_Craft_RevertInvalidRecipe() (gas: 16653)
+[PASS] test_Craft_RevertNotCrafter() (gas: 180422)
+Suite result: ok. 8 passed; 0 failed; 0 skipped; finished in 67.51ms (664.60µs CPU time)
+
+Ran 1 test for test/fork/USDCFork.t.sol:USDCForkTest
+[PASS] testUSDCTransferAndBalance() (gas: 51763)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 1.56s (949.97ms CPU time)
+
+Ran 2 tests for test/fork/ChainLinkFork.t.sol:ChainlinkForkTest
+[PASS] testDecimals() (gas: 17561)
+[PASS] testLatestRoundData() (gas: 39043)
+Suite result: ok. 2 passed; 0 failed; 0 skipped; finished in 2.46s (3.16s CPU time)
+
+Ran 1 test for test/fork/UniswapV2Fork.t.sol:UniswapV2ForkTest
+[PASS] testSwapEthForUsdc() (gas: 129973)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 3.35s (2.73s CPU time)
+
+Ran 1 test for test/invariant/VaultInvariant.t.sol:VaultInvariant
+[PASS] invariant_StakingShares() (runs: 256, calls: 128000, reverts: 0)
+
+╭--------------+----------+-------+---------+----------╮
+| Contract     | Selector | Calls | Reverts | Discards |
++======================================================+
+| VaultHandler | deposit  | 64203 | 0       | 0        |
+|--------------+----------+-------+---------+----------|
+| VaultHandler | withdraw | 63797 | 0       | 0        |
+╰--------------+----------+-------+---------+----------╯
+
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 21.12s (21.12s CPU time)
+
+Ran 1 test for test/unit/CraftingSystem.t.sol:MockResourceTokens
+[PASS] testMint(address,uint256,uint256) (runs: 256, μ: 22893, ~: 23282)
+Suite result: ok. 1 passed; 0 failed; 0 skipped; finished in 21.13s (21.13s CPU time)
+
+Ran 13 tests for test/unit/NFTRentalVault.t.sol:NFTRentalVaultTest
+[PASS] test_ClaimBack() (gas: 265966)
+[PASS] test_ClaimBack_RevertNotLender() (gas: 187186)
+[PASS] test_ClaimBack_RevertRentalActive() (gas: 290489)
+[PASS] test_ClaimRent() (gas: 286027)
+[PASS] test_ClaimRent_RevertNoRent() (gas: 185259)
+[PASS] test_ClaimRent_RevertNotLender() (gas: 289696)
+[PASS] test_ListItem() (gas: 194477)
+[PASS] test_ListItem_RevertZeroAmount() (gas: 18330)
+[PASS] test_ListItem_RevertZeroPrice() (gas: 18373)
+[PASS] test_RentItem() (gas: 297052)
+[PASS] test_RentItem_RevertAlreadyRented() (gas: 290484)
+[PASS] test_RentItem_RevertNotAvailable() (gas: 19965)
+[PASS] test_RentItem_RevertZeroBlocks() (gas: 187747)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 31.18s (2.99ms CPU time)
+
+Ran 4 tests for test/invariant/AMMInvariantFixed.t.sol:AMMInvariantFixed
+[PASS] invariant_BalancesMatchReserves() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------+-------------+-------+---------+----------╮
+| Contract | Selector    | Calls | Reverts | Discards |
++=====================================================+
+| Handler  | swap        | 63802 | 0       | 0        |
+|----------+-------------+-------+---------+----------|
+| Handler  | swapReverse | 64198 | 0       | 0        |
+╰----------+-------------+-------+---------+----------╯
+
+[PASS] invariant_KNeverDecreases() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------+-------------+-------+---------+----------╮
+| Contract | Selector    | Calls | Reverts | Discards |
++=====================================================+
+| Handler  | swap        | 64190 | 0       | 0        |
+|----------+-------------+-------+---------+----------|
+| Handler  | swapReverse | 63810 | 0       | 0        |
+╰----------+-------------+-------+---------+----------╯
+
+[PASS] invariant_ReservesGrow() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------+-------------+-------+---------+----------╮
+| Contract | Selector    | Calls | Reverts | Discards |
++=====================================================+
+| Handler  | swap        | 63784 | 0       | 0        |
+|----------+-------------+-------+---------+----------|
+| Handler  | swapReverse | 64216 | 0       | 0        |
+╰----------+-------------+-------+---------+----------╯
+
+[PASS] invariant_TotalSupplyConservation() (runs: 256, calls: 128000, reverts: 0)
+
+╭----------+-------------+-------+---------+----------╮
+| Contract | Selector    | Calls | Reverts | Discards |
++=====================================================+
+| Handler  | swap        | 64051 | 0       | 0        |
+|----------+-------------+-------+---------+----------|
+| Handler  | swapReverse | 63949 | 0       | 0        |
+╰----------+-------------+-------+---------+----------╯
+
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 31.18s (110.62s CPU time)
+
+Ran 13 tests for test/governance/GameGovernor.t.sol:GameGovernorTest
+[PASS] testFuzz_HasVoted(uint32) (runs: 256, μ: 14559, ~: 14559)
+[PASS] testFuzz_QuorumAtDifferentBlocks(uint32) (runs: 256, μ: 25616, ~: 25616)
+[PASS] testFuzz_VotingPowerAfterDelegate(uint96) (runs: 256, μ: 26243, ~: 26243)
+[PASS] test_AliceCanPropose() (gas: 72636)
+[PASS] test_BobCannotPropose() (gas: 29945)
+[PASS] test_FullLifecycle() (gas: 321450)
+[PASS] test_GovernorName() (gas: 13026)
+[PASS] test_ProposalThreshold() (gas: 8082)
+[PASS] test_Quorum() (gas: 24575)
+[PASS] test_TimelockAddress() (gas: 10217)
+[PASS] test_TokenAddress() (gas: 8391)
+[PASS] test_VotingDelay() (gas: 8059)
+[PASS] test_VotingPeriod() (gas: 8021)
+Suite result: ok. 13 passed; 0 failed; 0 skipped; finished in 31.19s (31.22s CPU time)
+
+Ran 4 tests for test/fuzz/VaultFuzz.t.sol:VaultFuzzTest
+[PASS] testFuzzDeposit(uint96) (runs: 256, μ: 109312, ~: 109312)
+[PASS] testFuzzMint(uint96) (runs: 256, μ: 109448, ~: 109448)
+[PASS] testFuzzRedeem(uint96,uint96) (runs: 256, μ: 127378, ~: 127477)
+[PASS] testFuzzWithdraw(uint96,uint96) (runs: 256, μ: 130557, ~: 130760)
+Suite result: ok. 4 passed; 0 failed; 0 skipped; finished in 31.20s (31.32s CPU time)
+
+Ran 15 test suites in 31.20s (174.53s CPU time): 81 tests passed, 0 failed, 0 skipped (81 total tests)
