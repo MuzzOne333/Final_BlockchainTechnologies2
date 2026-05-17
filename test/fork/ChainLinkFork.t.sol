@@ -20,22 +20,31 @@ interface AggregatorV3Interface {
 
 contract ChainlinkForkTest is Test {
 
-    AggregatorV3Interface constant feed =
+    AggregatorV3Interface constant ethUsdFeed =
         AggregatorV3Interface(
             0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419
         );
 
+    AggregatorV3Interface constant usdcUsdFeed =
+        AggregatorV3Interface(
+            0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6
+        );
+
     function setUp() public {
-        vm.createSelectFork(vm.envString("MAINNET_RPC_URL"));
+        string memory rpcUrl = vm.envOr("MAINNET_RPC_URL", string("https://eth.drpc.org"));
+        vm.createSelectFork(rpcUrl);
     }
 
     function testLatestRoundData() public view {
-        (, int256 answer, , , ) = feed.latestRoundData();
+        (, int256 answerEth, , , ) = ethUsdFeed.latestRoundData();
+        assertGt(answerEth, 0);
 
-        assertGt(answer, 0);
+        (, int256 answerUsdc, , , ) = usdcUsdFeed.latestRoundData();
+        assertGt(answerUsdc, 0);
     }
 
     function testDecimals() public view {
-        assertEq(feed.decimals(), 8);
+        assertEq(ethUsdFeed.decimals(), 8);
+        assertEq(usdcUsdFeed.decimals(), 8);
     }
 }

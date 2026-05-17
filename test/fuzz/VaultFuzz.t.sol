@@ -33,9 +33,9 @@ contract VaultFuzzTest is Test {
         vm.assume(amount > 0);
 
         vm.prank(alice);
-        vault.deposit(amount);
+        vault.deposit(amount, alice);
 
-        assertEq(vault.userDeposits(alice), amount);
+        assertEq(vault.maxWithdraw(alice), amount);
     }
 
     function testFuzzWithdraw(
@@ -47,14 +47,38 @@ contract VaultFuzzTest is Test {
 
         vm.startPrank(alice);
 
-        vault.deposit(depositAmount);
-        vault.withdraw(withdrawAmount);
+        vault.deposit(depositAmount, alice);
+        vault.withdraw(withdrawAmount, alice, alice);
 
         vm.stopPrank();
 
-        assertEq(
-            vault.userDeposits(alice),
-            depositAmount - withdrawAmount
-        );
+        assertEq(vault.maxWithdraw(alice), depositAmount - withdrawAmount);
+    }
+
+    function testFuzzMint(uint96 shares) public {
+        vm.assume(shares > 0);
+
+        vm.prank(alice);
+        uint256 assets = vault.mint(shares, alice);
+
+        assertEq(assets, shares);
+        assertEq(vault.maxWithdraw(alice), shares);
+    }
+
+    function testFuzzRedeem(
+        uint96 mintShares,
+        uint96 redeemShares
+    ) public {
+        vm.assume(mintShares > 0);
+        vm.assume(redeemShares <= mintShares);
+
+        vm.startPrank(alice);
+
+        vault.mint(mintShares, alice);
+        vault.redeem(redeemShares, alice, alice);
+
+        vm.stopPrank();
+
+        assertEq(vault.maxWithdraw(alice), mintShares - redeemShares);
     }
 }

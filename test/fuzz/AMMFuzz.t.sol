@@ -29,4 +29,24 @@ contract AMMFuzzTest is Test, ERC1155Holder {
         amount = bound(amount, 1 ether, 1000 ether);
         try amm.swap(1, 2, amount, 0) {} catch {}
     }
+
+    /// @notice Fuzz test addLiquidity
+    function testFuzzAddLiquidity(uint256 amount) public {
+        amount = bound(amount, 1, 100_000 ether);
+        
+        uint256 initialReserve1 = amm.reserves(1);
+        
+        amm.addLiquidity(1, amount);
+        assertEq(amm.reserves(1), initialReserve1 + amount);
+    }
+
+    /// @notice Fuzz test removeLiquidity
+    function testFuzzRemoveLiquidity(uint256 amount) public {
+        amount = bound(amount, 1, 500_000 ether); // Max is initial liquidity
+        
+        uint256 initialReserve1 = amm.reserves(1);
+        
+        amm.removeLiquidity(1, amount);
+        assertEq(amm.reserves(1), initialReserve1 - amount);
+    }
 }

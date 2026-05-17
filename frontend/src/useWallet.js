@@ -33,8 +33,8 @@ export function useWallet() {
             chainId: REQUIRED_CHAIN_ID,
             chainName: "Base Sepolia",
             nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
-            rpcUrls: ["https://sepolia.base.org"],
-            blockExplorerUrls: ["https://sepolia-explorer.base.org"],
+            rpcUrls: ["https://ethereum-sepolia-rpc.publicnode.com"],
+            blockExplorerUrls: ["https://sepolia.etherscan.io"],
           }],
         });
         return true;

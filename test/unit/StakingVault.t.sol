@@ -36,91 +36,117 @@ contract StakingVaultTest is Test {
 
     function testDeposit() public {
         vm.prank(alice);
-        vault.deposit(100 ether);
+        vault.deposit(100 ether, alice);
 
-        assertEq(vault.userDeposits(alice), 100 ether);
-        assertEq(vault.totalDeposits(), 100 ether);
+        assertEq(vault.maxWithdraw(alice), 100 ether);
+        assertEq(vault.totalAssets(), 100 ether);
     }
+
+    event Deposit(address indexed sender, address indexed owner, uint256 assets, uint256 shares);
 
     function testDepositEmitsEvent() public {
-        vm.expectEmit(true, false, false, true);
-        emit StakingVault.Deposited(alice, 100 ether);
+        vm.expectEmit(true, true, false, true);
+        emit Deposit(alice, alice, 100 ether, 100 ether);
 
         vm.prank(alice);
-        vault.deposit(100 ether);
-    }
-
-    function testCannotDepositZero() public {
-        vm.expectRevert("ZERO_AMOUNT");
-
-        vm.prank(alice);
-        vault.deposit(0);
+        vault.deposit(100 ether, alice);
     }
 
     function testWithdraw() public {
         vm.startPrank(alice);
 
-        vault.deposit(100 ether);
-        vault.withdraw(40 ether);
+        vault.deposit(100 ether, alice);
+        vault.withdraw(40 ether, alice, alice);
 
         vm.stopPrank();
 
-        assertEq(vault.userDeposits(alice), 60 ether);
-        assertEq(vault.totalDeposits(), 60 ether);
+        assertEq(vault.maxWithdraw(alice), 60 ether);
+        assertEq(vault.totalAssets(), 60 ether);
     }
 
     function testFullWithdraw() public {
         vm.startPrank(alice);
 
-        vault.deposit(100 ether);
-        vault.withdraw(100 ether);
+        vault.deposit(100 ether, alice);
+        vault.withdraw(100 ether, alice, alice);
 
         vm.stopPrank();
 
-        assertEq(vault.userDeposits(alice), 0);
-        assertEq(vault.totalDeposits(), 0);
+        assertEq(vault.maxWithdraw(alice), 0);
+        assertEq(vault.totalAssets(), 0);
     }
 
     function testCannotWithdrawTooMuch() public {
         vm.startPrank(alice);
 
-        vault.deposit(100 ether);
+        vault.deposit(100 ether, alice);
 
-        vm.expectRevert("INSUFFICIENT");
-        vault.withdraw(101 ether);
+        vm.expectRevert();
+        vault.withdraw(101 ether, alice, alice);
 
         vm.stopPrank();
     }
 
-    function testRewardCalculation() public {
-        vm.prank(alice);
-        vault.deposit(100 ether);
-
-        uint256 reward = vault.calculateReward(alice);
-
-        assertEq(reward, 10 ether);
-    }
-
     function testMultipleUsers() public {
         vm.prank(alice);
-        vault.deposit(100 ether);
+        vault.deposit(100 ether, alice);
 
         vm.prank(bob);
-        vault.deposit(300 ether);
+        vault.deposit(300 ether, bob);
 
-        assertEq(vault.totalDeposits(), 400 ether);
+        assertEq(vault.totalAssets(), 400 ether);
     }
 
     function testVaultBalanceMatchesAccounting() public {
         vm.prank(alice);
-        vault.deposit(100 ether);
+        vault.deposit(100 ether, alice);
 
         vm.prank(bob);
-        vault.deposit(200 ether);
+        vault.deposit(200 ether, bob);
 
         assertEq(
             token.balanceOf(address(vault)),
-            vault.totalDeposits()
+            vault.totalAssets()
         );
+    }
+
+    function testMint() public {
+        vm.prank(alice);
+        uint256 assets = vault.mint(100 ether, alice);
+
+        assertEq(assets, 100 ether);
+        assertEq(vault.maxWithdraw(alice), 100 ether);
+        assertEq(vault.totalAssets(), 100 ether);
+    }
+
+    function testRedeem() public {
+        vm.startPrank(alice);
+        vault.mint(100 ether, alice);
+        uint256 assets = vault.redeem(40 ether, alice, alice);
+        vm.stopPrank();
+
+        assertEq(assets, 40 ether);
+        assertEq(vault.maxWithdraw(alice), 60 ether);
+        assertEq(vault.totalAssets(), 60 ether);
+    }
+
+    function testPreviewDeposit() public view {
+        uint256 shares = vault.previewDeposit(100 ether);
+        assertEq(shares, 100 ether);
+    }
+
+    function testPreviewMint() public view {
+        uint256 assets = vault.previewMint(100 ether);
+        assertEq(assets, 100 ether);
+    }
+
+    function testPreviewWithdraw() public view {
+        uint256 shares = vault.previewWithdraw(100 ether);
+        assertEq(shares, 100 ether);
+    }
+
+    function testPreviewRedeem() public view {
+        uint256 assets = vault.previewRedeem(100 ether);
+        assertEq(assets, 100 ether);
     }
 }

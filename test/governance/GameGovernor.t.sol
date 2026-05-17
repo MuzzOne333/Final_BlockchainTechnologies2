@@ -130,4 +130,19 @@ contract GameGovernorTest is Test {
         vm.roll(block.number + 1);
         assertGe(token.getVotes(alice), 0);
     }
+
+    function testFuzz_QuorumAtDifferentBlocks(uint32 futureBlock) public {
+        vm.assume(futureBlock > block.number && futureBlock < block.number + 100_000);
+        vm.roll(futureBlock);
+        uint256 expectedQuorum = 40_000 * 10 ** 18;
+        assertEq(governor.quorum(futureBlock - 1), expectedQuorum);
+    }
+
+    function testFuzz_HasVoted(uint32 targetBlock) public {
+        vm.assume(targetBlock > block.number && targetBlock < block.number + 100_000);
+        
+        // This is mainly to ensure hasVoted doesn't revert for random IDs and addresses
+        bool voted = governor.hasVoted(uint256(targetBlock), alice);
+        assertEq(voted, false);
+    }
 }

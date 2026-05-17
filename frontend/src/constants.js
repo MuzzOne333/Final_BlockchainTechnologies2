@@ -1,4 +1,4 @@
-export const REQUIRED_CHAIN_ID = "0x14a34";
+export const REQUIRED_CHAIN_ID = "0xaa36a7";
 
 export const TOKEN_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const GOVERNOR_ADDRESS = "0x0000000000000000000000000000000000000000";
@@ -7,7 +7,7 @@ export const LOOTBOX_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const CRAFTING_ADDRESS = "0x0000000000000000000000000000000000000000";
 export const AMM_ADDRESS = "0x0000000000000000000000000000000000000000";
 
-export const SUBGRAPH_URL = "https://api.studio.thegraph.com/query/YOUR_ID/gamefi-dao/version/latest";
+export const SUBGRAPH_URL = "https://api.thegraph.com/subgraphs/name/uniswap/uniswap-v3";
 
 export const TOKEN_ABI = [
   "function balanceOf(address) view returns (uint256)",
