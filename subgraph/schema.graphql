@@ -1,0 +1,37 @@
+type Proposal @entity {
+  id: ID!
+  proposalId: BigInt!
+  proposer: Bytes!
+  description: String!
+  startBlock: BigInt!
+  endBlock: BigInt!
+  status: String!
+  forVotes: BigInt!
+  againstVotes: BigInt!
+  abstainVotes: BigInt!
+  createdAt: BigInt!
+  queuedAt: BigInt
+  executedAt: BigInt
+}
+
+type Vote @entity {
+  id: ID!
+  proposal: Proposal!
+  voter: Bytes!
+  support: Int!
+  weight: BigInt!
+  reason: String!
+  timestamp: BigInt!
+}
+
+type ProposalQueued @entity {
+  id: ID!
+  proposalId: BigInt!
+  eta: BigInt!
+}
+
+type ProposalExecuted @entity {
+  id: ID!
+  proposalId: BigInt!
+  timestamp: BigInt!
+}
