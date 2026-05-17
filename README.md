@@ -1,3 +1,48 @@
+## Project Name
+GameFi DAO
+
+
+## Features
+
+- Governance DAO
+- NFT rentals
+- Loot box system
+- AMM trading
+- Staking vault
+- Chainlink VRF randomness
+
+
+## Tech Stack
+
+- Solidity
+- Foundry
+- OpenZeppelin
+- Chainlink
+- The Graph
+- React/Vite
+
+
+## Installation
+git clone https://github.com/MuzzOne333/Final_BlockchainTechnologies2
+forge install
+forge build
+
+
+## Testing
+
+forge test
+forge coverage
+
+
+## Security
+
+- Slither
+- access control
+- fuzzing
+- invariant testing
+
+
+
 ## Foundry
 
 **Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
