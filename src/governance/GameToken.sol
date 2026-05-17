@@ -18,4 +18,12 @@ contract GameToken is ERC20Votes, ERC20Permit {
     {
         super._update(from, to, amount);
     }
+
+    function nonces(address owner)
+        public view
+        override(ERC20Permit, Nonces)
+        returns (uint256)
+    {
+        return super.nonces(owner);
+    }
 }
