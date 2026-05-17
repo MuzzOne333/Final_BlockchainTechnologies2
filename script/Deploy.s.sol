@@ -14,8 +14,9 @@ import "../contracts/game/LootBox.sol";
 
 contract Deploy is Script {
     function run() external {
-        address deployer = vm.envOr("DEPLOYER_ADDRESS", msg.sender);
-        vm.startBroadcast(deployer);
+        uint256 deployerPrivateKey = vm.envUint("PRIVATE_KEY");
+        address deployer = vm.addr(deployerPrivateKey);
+        vm.startBroadcast(deployerPrivateKey);
 
         // 1. Deploy Tokens
         GameToken gameToken = new GameToken(deployer);
