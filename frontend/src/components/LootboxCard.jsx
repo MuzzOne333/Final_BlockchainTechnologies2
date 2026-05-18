@@ -6,7 +6,7 @@ export default function LootboxCard({ contracts }) {
   async function open() {
     try {
       setStatus({ msg: "Opening lootbox...", type: "info" });
-      const tx = await contracts.lootbox.openLootbox();
+      const tx = await contracts.lootbox.openLootBox();
       await tx.wait();
       setStatus({ msg: "Lootbox opened!", type: "success" });
     } catch (e) {

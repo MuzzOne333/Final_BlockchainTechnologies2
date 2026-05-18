@@ -27,7 +27,7 @@ export const VAULT_ABI = [
 ];
 
 export const LOOTBOX_ABI = [
-  "function openLootbox() external",
+  "function openLootBox() external payable returns (uint256)",
 ];
 
 export const CRAFTING_ABI = [
